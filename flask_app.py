@@ -2,7 +2,7 @@ import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import os
 import datetime
-import bcrypt
+#import bcrypt
 
 
 #conn.execute("create table post(id integer primary key autoincrement, status text, image text, date_posted datetime, user_id integer);")
@@ -16,7 +16,8 @@ import bcrypt
 
 app = Flask(__name__)
 app.secret_key = os.urandom(12)
-conn = sqlite3.connect("/home/tmvinoth3/mysite/social.db")
+#conn = sqlite3.connect("/home/tmvinoth3/mysite/social.db")
+conn = sqlite3.connect("social.db")
 #conn.execute("alter table user add column image text")
 #conn.commit()
 #conn.execute("alter table user add column msg_count integer")
@@ -39,11 +40,12 @@ def login():
                 return render_template('social_login.html',msg=0)
             else:
               res = dictUsers[0]
-              print("Check Password {}".format(request.form['pwd'].encode('utf-8')))
+              print("Check Password {}".format(request.form['pwd'].encode('utf-8')), res['password'])
               #if bcrypt.check_password_hash(res['password'],request.form['pwd'].encode('utf-8')):
-              if bcrypt.checkpw(request.form['pwd'].encode('utf-8'),res['password'].encode('utf-8')):
-              #if request.form['pwd'] == res['password']:
+              #if bcrypt.checkpw(request.form['pwd'].encode('utf-8'),res['password'].encode('utf-8')): 
+              if request.form['pwd'] == res['password']:
                   session[res['username']] = True
+                  print("Session name", res['username'], session[res['username']])
                   session['user'] = res['username']
                   session['user_id'] = res['id']
                   session['logged'] = True
@@ -72,11 +74,11 @@ def signup():
             if image == "":
                 image = "user.jpeg"
             else:
-                file.save(file.save(os.path.join("/home/tmvinoth3/mysite/static/img", file.filename)))
+                file.save(file.save(os.path.join("static/img", file.filename)))#file.save(file.save(os.path.join("/home/tmvinoth3/mysite/static/img", file.filename)))
             if pwd != pwdConfirm:
                 return render_template('social_signup.html',msg='Password Mismatch')
             #pwd = bcrypt.generate_password_hash(request.form['pwd'].encode('utf-8'))
-            pwd = bcrypt.hashpw(request.form['pwd'].encode('utf-8'), bcrypt.gensalt())
+            #pwd = bcrypt.hashpw(request.form['pwd'].encode('utf-8'), bcrypt.gensalt())
             users = conn.execute("select * from user where username='{}'".format(uname))
             dictUsers = [dict(id=item[0]) for item in users]
             #print(dictUsers,len(dictUsers))
@@ -175,7 +177,8 @@ def create():
           file = request.files['image']
           image = file.filename
           if image != "":
-            file.save(os.path.join("/home/tmvinoth3/mysite/static/img", file.filename))
+            file.save(os.path.join("static/img", file.filename))
+			#file.save(os.path.join("/home/tmvinoth3/mysite/static/img", file.filename))
             image = "img/{}".format(image)
           #conn.execute("insert into post (status,image,date_posted) values ('{}','{}','{}')".format(request.form['status'], "img/{}".format(request.form['image']),post_date))
           conn.execute("insert into post (status,image,date_posted,user_id) values ('{}','{}','{}',{})".format(request.form['status'], image,post_date,session['user_id']))
@@ -195,7 +198,8 @@ def update():
           else:
             image ="img/{}".format(image)
             file = request.files['image']
-            file.save(os.path.join("/home/tmvinoth3/mysite/static/img", file.filename))
+            file.save(os.path.join("static/img", file.filename))
+            #file.save(os.path.join("/home/tmvinoth3/mysite/static/img", file.filename))
           #conn.execute("insert into post (status,image,date_posted) values ('{}','{}','{}')".format(request.form['status'], "img/{}".format(request.form['image']),post_date))
           conn.execute("update post set status='{}',image='{}',date_posted='{}',user_id={} where id={}".format(request.form['status'], image,post_date,session['user_id'],request.form['post_id']))
           conn.commit()
@@ -220,7 +224,8 @@ def update_User():
                   image ="img/{}".format(image)
                   file = request.files['image']
                   print("Check before save updateUser")
-                  file.save(os.path.join("/home/tmvinoth3/mysite/static/img", file.filename))
+                  file.save(os.path.join("static/img", file.filename))
+                  #file.save(os.path.join("/home/tmvinoth3/mysite/static/img", file.filename))
                 users = conn.execute("select * from user where username='{}'".format(uname))
                 dictUsers = [dict(id=item[0]) for item in users]
                 print("Check update method in updateUser after dict")
