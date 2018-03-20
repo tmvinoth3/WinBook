@@ -1,0 +1,71 @@
+<html>
+<head>
+<link href="{{url_for('.static', filename='bootstrap.min.css')}}" rel="stylesheet">
+<script src="{{url_for('.static', filename='bootstrap.min.js')}}"></script>
+<style>
+    #displayDiv{
+        margin-top:1%;
+    }
+    #imgInfo {
+        height: 30%;
+        width: 12%;
+    }
+    h3,h1{
+    font-weight:italic;
+    }
+    #nav-title {
+        text-align: center;
+        margin-left: 33%;
+        margin-top: 1%;
+    }
+    #nav{
+    color:white;
+    background-color:black;
+    height: 10%;
+    text-align: center;
+    }
+    table, tr, th, td{
+    border: 1px solid black;
+    }
+    #createForm, #updateForm {
+        margin-left: 5%;
+        margin-top: 5%;
+    }
+    #containerDiv, #infoDiv {
+        margin-top: 1%;
+        border: 1px solid #ded7d7;
+    }
+    li{
+        color:white;
+    }
+    .navURL{
+    color: white;
+    font-weight: bold;
+    }
+</style>
+</head>
+<body>
+<div id="nav" class="navbar navbar-default">
+<h2 class="nav-title" id="nav-title">Welcome to my First Flask</h2>
+    <nav class="navbar navbar-expand">
+        <ul class="navbar-nav">
+            {%if session[session['user']] == True%}
+            <li class="nav-item"><a class="nav-link navURL" href="{{url_for('display',user=uName)}}">Display</a></li>
+            <li class="nav-item"><a class="nav-link navURL" href="{{url_for('create')}}">Create</a></li>
+            <li class="nav-item"><a class="nav-link navURL" href="{{url_for('logout',user=session['user'])}}">Logout</a></li>
+            <li class="nav-item"><a class="nav-link navURL" href=""><span class="glyphicon glyphicon-user"> {{session['user']}}</span></a></li>
+            {%endif%}
+            <!--<li class="nav"></li>-->
+        </ul>
+    </nav>
+</div>
+{%block start%}{%endblock%}
+{%block form_details%}{%endblock%}
+{%block person%}{%endblock%}
+{%block updateForm%}{%endblock%}
+{%block playerInfo%}{%endblock%}
+{%block upload%}{%endblock%}
+{%block login%}{%endblock%}
+{%block signup%}{%endblock%}
+</body>
+</html>

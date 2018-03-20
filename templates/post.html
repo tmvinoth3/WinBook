@@ -1,0 +1,49 @@
+{%if session[session['user']] == True%}
+{%extends 'social_master.html'%}
+{%block start%}
+<style>
+    label {
+        font-weight: bold;
+    }
+    #showImage{
+        height: 15%;
+    padding: 1%;
+    }
+</style>
+<div class="container" id="containerDiv">
+    <form method="POST" id="createForm" enctype="multipart/form-data">
+    <div class="row">
+        <div class="form-group col-md-5 col-sm-8 row">
+            <div>
+                <label class="form-contrl">Status</label>
+            </div>
+            <div>
+                <!-- <input type="text" class="form-contrl" name="status" /> -->
+                <textarea class="form-contrl" style="width:90%;height:10%" name="status"></textarea>
+            </div>
+        </div>
+        <div class="form-group col-md-2 col-sm-4">
+            <div>
+                <label class="form-contrl">Image</label>
+            </div>
+            <div>
+                <span class="glyphicon glyphicon-camera" id="imgUpload"> upload</span>
+                <img id="showImage">
+                <input type="file" style="" class="form-contrl" name="image" id="image_id" onchange="loadFile(event)"/>
+            </div>
+        </div>
+        <div>
+          <!--  <button class="form-contrl btn-success" type="submit" name="create">Post</button>-->
+            <input type="submit" class="form-contrl btn-success" value="Post" name="create"/>
+        </div>
+    </div>
+    </form>
+</div>
+<div>
+    {%block displayFeed%}
+    {%endblock%}
+</div>
+{%endblock%}
+{%else%}
+You are not authorized
+{%endif%}

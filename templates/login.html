@@ -1,0 +1,43 @@
+{%extends 'master_page.html'%}
+{%block login%}
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
+<div class="container col-md-4 offset-md-4" id="containerDiv">
+    <form method="POST" id="createForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Username</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="uname" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Password</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="pwd" />
+            </div>
+        </div>
+        <div>
+            <button class="form-contrl btn-success" type="submit">LOG IN</button>
+            <a href="{{url_for('signup')}}">Register Here</a>
+        </div>
+        <div>
+            {%if msg == 0 %}
+            <span class="label label-danger" style="color:#bf0606;">Incorrect username or password</span>
+            {%elif msg == 1%}
+            <span class="label label-success" style="color:#28a745;">Account successfully created !! Plese login</span>
+            {%elif msg == 2%}
+            <span class="label label-success" style="color:#28a745;">successfully logged out !!</span>
+            {%elif msg == 500%}
+            <span class="label label-success" style="color:#28a745;">You are not authorized to view this page !!</span>
+            {%endif%}
+        </div>
+    </form>
+</div>
+{%endblock%}

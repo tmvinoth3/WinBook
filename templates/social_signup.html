@@ -1,0 +1,100 @@
+{%extends 'social_master.html'%}
+{%block signup%}
+<style>
+    label {
+        font-weight: bold;
+    }
+    img{
+    height: 25%;
+    width: 50%;
+    padding: 1%;
+    border: 1px solid #33333352;
+    }
+</style>
+<div class="container col-md-4 col-offset-md-4" id="containerDiv">
+    <form method="POST" id="createForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Username</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="uname" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Enter Password</label>
+            </div>
+            <div>
+                <input type="password" class="form-contrl" name="pwd" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Re-Enter Password</label>
+            </div>
+            <div>
+                <input type="password" class="form-contrl" name="pwdConf" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Country</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="country" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Date Of Birth</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="dob" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Gender</label>
+            </div>
+            <div>
+                <div class="dropdown">
+                        <button type="button" class="btn btn-success" id="pick">Select</button>
+                        <button type="button" class="btn btn-success" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="dropdown">
+                        <li><a href="#">Female</a></li>
+                        <li><a href="#">Male</a></li>
+                        <li><a href="#">Others</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Email</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="email" />
+                <input type="hidden" name="gender" id="hidGender"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Upload Image</label>
+            </div>
+            <div>
+                <img id="showProPic">
+                <input type="file" class="form-contrl" name="image" id="pro_pic" onchange="loadProPic(event)"/>
+                <input type="hidden" name="gender" id="hidGender"/>
+            </div>
+        </div>
+        <div>
+            <button class="form-contrl btn-success" type="submit">Sign Up</button>
+            <a href="{{url_for('login')}}">Login Here</a>
+        </div>
+        <div>
+                <span class="label label-warning" style="color:#bf0606;">{{msg}}</span>
+        </div>
+    </form>
+</div>
+{%endblock%}

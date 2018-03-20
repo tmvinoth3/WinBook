@@ -1,0 +1,393 @@
+{%extends 'post.html'%}
+{%block person%}
+<style>
+    #postDiv{
+            border: 2px solid #6f797940;
+    padding-left: 10%;
+    }
+    .removeIcon{
+    margin-right: 5%;
+    float: right;
+    }
+
+    .propicDiv{
+            margin-bottom: 5%;
+            margin-right: -16%;
+    }
+
+    .sentMsg{
+        height:30%;
+        overflow-y:scroll;
+    }
+
+    #msgTxt{
+        width:70%;
+    }
+
+</style>
+
+<!-- Modal -->
+<div id="commentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Comments</h4>
+      </div>
+      <div class="modal-body">
+          <div id="comment-body">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="updateModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="updTitle">Update</h4>
+      </div>
+      <div class="modal-body">
+          <div id="update-body" style="height:80%;">
+
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="displayDiv" class="row">
+    <div class="col-md-6">
+        <div id="showMsgDiv" style="display:none">
+            <div class="sentMsg"></div>
+            <div>
+                <textarea id="msgTxt"></textarea>
+                <button class="sendMsg">Send</button>
+            </div>
+        </div>
+       <!-- <div class="container col-md-4 col-offset-md-4" id="userInfoDiv" style="display:none;">
+            <form method="POST" id="updateUserInfo" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div>
+                        <label class="form-contrl">Username</label>
+                    </div>
+                    <div>
+                        <input type="text" class="form-contrl" name="uname" value="{{userInfo.uname}}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label class="form-contrl">Country</label>
+                    </div>
+                    <div>
+                        <input type="text" class="form-contrl" value="{{userInfo.country}}" name="country" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label class="form-contrl">Date Of Birth</label>
+                    </div>
+                    <div>
+                        <input type="text" class="form-contrl" value="{{userInfo.dob}}" name="dob" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label class="form-contrl">Gender</label>
+                    </div>
+                    <div>
+                        <div class="dropdown">
+                                <button type="button" class="btn btn-success" id="pickUpdate">{{userInfo.gender}}</button>
+                                <button type="button" class="btn btn-success" data-toggle="dropdown"><span class="caret"></span></button>
+                            <ul class="dropdown-menu" id="dropdown">
+                                <li><a href="#">Female</a></li>
+                                <li><a href="#">Male</a></li>
+                                <li><a href="#">Others</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label class="form-contrl">Email</label>
+                    </div>
+                    <div>
+                        <input type="text" class="form-contrl" value="{{userInfo.email}}" name="email" />
+                        <input type="hidden" name="gender" id="hidGender"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label class="form-contrl">Upload Image</label>
+                    </div>
+                    <div>
+                        {%if userInfo.image == '' or userInfo.image == None%}
+                        <img id="showProPic" src="{{url_for('.static',filename='img/user.jpeg')}}">
+                        {%else%}
+                        <img id="showProPic" src="{{url_for('.static',filename=userInfo.image)}}">
+                        {%endif%}
+                        <input type="file" class="form-contrl" name="image" id="update_pro_pic" onchange="loadProPicUpdate(event)"/>
+                        <input type="hidden" name="gender" id="hidGender"/>
+                    </div>
+                </div>
+                <div>
+                    <input type="button" class="form-contrl btn-success" name="create">Update</button>
+                </div>
+                <div>
+                        <span class="label label-warning" style="color:#bf0606;">{{msg}}</span>
+                </div>
+            </form>
+        </div> -->
+        {%for p in post%}
+        <div class="container" id="{{p.id}}updateDiv" style="display:none">
+            <form method="POST" id="updateForm" enctype="multipart/form-data">
+            <div class="row">
+                <div class="form-group col-md-5 col-sm-12 row">
+                    <div>
+                        <label class="form-contrl">Status</label>
+                    </div>
+                    <div>
+                        <!-- <input type="text" class="form-contrl" name="status" /> -->
+                        <textarea class="form-contrl" style="width:90%;height:5%" name="status">{{p.status}}</textarea>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 col-sm-7">
+                    <div>
+                        <label class="form-contrl">Image</label>
+                    </div>
+                    <div>
+                        <span class="glyphicon glyphicon-camera updImg" id="{{p.id}}"> upload</span>
+                        {%if p.image != ""%}
+                        <img id="{{p.id}}showImg" src="{{url_for('.static',filename=p.image)}}" style="width:70%;padding:2px;" alt="{{p.image}}">
+                        {%else%}
+                        <img id="{{p.id}}showImg" src="" style="width:70%;padding:2px;height:100;" alt="{{p.image}}">
+                        {%endif%}
+                        <input type="hidden" name="imageOld" value="{{p.image}}"/>
+                        <input type="hidden" name="post_id" value="{{p.id}}">
+                        <div class="fileinput fileinput-new">
+                            <input type="file" style="" class="form-contrl" name="image" id="{{p.id}}" onchange="loadUpdateImg(event)"/>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <input class="form-contrl btn-success" type="submit" name="create" value="Update" />
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="" id="postDiv">
+            <div id="{{p.id}}imgDiv" class="imgDiv">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5">
+                        <div class="row profile">
+                            <div class="propicDiv col-md-5 col-sm-5" id={{p.puser_id}}>
+                                 {%if p.user_image == None or p.user_image == ''%}
+                                 <img style="width: 50%;height: 5%;border-radius: 50%;" src="{{url_for('.static',filename='img/user.jpeg')}}">
+                                 {%else%}
+                                 <img style="width: 50%;height: 5%;border-radius: 50%;" src="{{url_for('.static',filename=p.user_image)}}">
+                                 {%endif%}
+                            </div>
+                                 <label class="userProfile" style="font-size: 150%;">{{p.username}}</label>
+                        </div>
+                        <div>
+                            <label class="label label-primary">{{p.date}}</label>
+                        </div>
+                    </div>
+                    {%if p.puser_id == session['user_id']%}
+                    <div class="col-md-7 col-sm-7">
+                        <div class="col-md-9 col-sm-9">
+                            <a class="removeIcon" href="{{url_for('delete',post_id=p.id)}}"><span style="color:red;" class="glyphicon glyphicon-remove"> Remove</span></a>
+                        </div>
+                        <div>
+                            <a class="updateIcon" id={{p.id}} href=""><span style="color:black;" class="glyphicon glyphicon-edit"> Update</span></a>
+                        </div>
+                    </div>
+                    {%endif%}
+                </div>
+                <div>
+                    <h5 style="font-size=100%;">{{p.status}}</h5>
+                </div>
+                <div>
+                    {%if p.image != ""%}
+                    <img style="width: 75%" src="{{url_for('.static',filename=p.image)}}" alt="{{p.image}}" />
+                    {%endif%}
+                </div>
+            </div>
+            <div>
+                {%if p.liked_by == session['user_id']%}
+                <button class="btn btn-success like" id={{p.id}}>Unlike</button>
+                {%else%}
+                <button class="btn btn-success like" id={{p.id}}>Like</button>
+                {%endif%}
+                <div>
+                    <label>Liked by</label>
+                </div>
+                <div class="row">
+                    <div style="margin-left:3%;">
+                        {%for like in p.likes%}
+                        <span style="font-family:-webkit-body;">
+                        {{like.uname}},
+                        </span>
+                        {%endfor%}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                            <textarea id="{{p.id}}comment" class="commentTxt form-control"></textarea>
+                    </div>
+                    <div>
+                            <button class="btn btn-success comment" id={{p.id}}>Comment</button>
+                    </div>
+                </div>
+                <div class="" id="{{p.id}}allCommentDiv">
+                    <div id="{{p.id}}newComment">
+
+                    </div>
+                    <div>
+                        {%if p.comments|length > 0%}
+                        <div class="row">
+                            <div class="col-md-2">
+                                    <label class="label label-warning">{{p.comments[(p.comments|length)-1].uname}}</label>
+                            </div>
+                            <div>
+                                    <p >{{p.comments[(p.comments|length)-1].comment}}</p>
+                            </div>
+                        </div>
+                        {%endif%}
+                    </div>
+                    <div>
+                        <a class="showAllCmt" id={{p.id}} hfef="">Show all comments</a>
+                    </div>
+                    <div id="{{p.id}}hidComments" style="display:none">
+                    {%for comm in p.comments%}
+                    <div class="row">
+                        <div class="col-md-2">
+                                <label class="label label-warning">{{comm.uname}}</label>
+                        </div>
+                        <div>
+                                <p >{{comm.comment}}</p>
+                        </div>
+                    </div>
+                    {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <input type="hidden" id="hidPost" value="{{p.id}}">
+        <input type="hidden" id="hidPostUserId" value="{{p.puser_id}}">
+        {%endfor%}
+        <input type="hidden" id="hidUser" value="{{session["user_id"]}}">
+        <input type="hidden" id="hidUserName" value="{{session["user"]}}">
+        <input type="hidden" id="hidToUser"/>
+    </div>
+
+<div id="frndModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Friends</h4>
+      </div>
+      <div class="modal-body">
+        <div id="frnd-modal" style="height:50%;overflow-y:scroll">
+            <div class="col-md-6" id="friendsList" >
+                {%for user in users%}
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="label label-warning">{{user.username}}</label>
+                    </div>
+                    <div class="">
+                        <button style="padding:1%" id="{{user.id}}" class="sendReqClass btn btn-success">Send Request</button>
+                    </div>
+                </div>
+                {%endfor%}
+                {%for ruser in reqUsers%}
+                <div id="acceptReq" class="row">
+                    <div class="col-md-3">
+                        <label class="label label-warning">{{ruser.username}}</label>
+                    </div>
+                    <div class="btn-group">
+                        <button id="{{ruser.id}}" class="acceptReqClass btn btn-success">Accept</button>
+                        <button id="{{ruser.id}}" class="sendReqClass btn btn-success">Deny</button>
+                    </div>
+                </div>
+                {%endfor%}
+                {%for ruser in reqSent%}
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="label label-warning">{{ruser.username}}</label>
+                    </div>
+                    <div class="">
+                        <button style="padding:1%" id="{{ruser.id}}" class="sendReqClass btn btn-success">Cancel Request</button>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+            <div class="col-md-6">
+                {%for frnd in friends%}
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="label label-warning">{{frnd.username}}</label>
+                    </div>
+                    <div class="btn-group">
+                        <button id="{{frnd.id}}" class="sendReqClass btn btn-warning">Unfriend</button>
+                        <button id="{{frnd.id}}" class="btn btn-primary msgIcon"><span class="glyphicon glyphicon-envelope"> Message</span></button>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="msgModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="updTitle">Message</h4>
+      </div>
+      <div class="modal-body">
+        {%for msg in msgs%}
+        <div class="viewMsgDiv" id="{{msg.uid}}">
+            <p class="msgIcon msgP" id={{msg.uname}}>{{msg.uname}} sent you message</p>
+        </div>
+        {%endfor%}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+    <!-- <button id="testPost" class="">test post</button> -->
+</div>
+{%endblock%}

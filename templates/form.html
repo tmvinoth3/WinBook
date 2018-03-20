@@ -1,0 +1,56 @@
+{%extends 'master_page.html'%}
+{%block start%}
+<style>
+    label{
+        font-weight: bold;
+    }
+</style>
+<div class="container col-md-4 offset-md-4" id="containerDiv">
+    <form method="POST" id="createForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Name</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Country</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="country" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Born</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="born" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Role</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="role" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Image</label>
+            </div>
+            <div>
+                <input type="file" class="form-contrl" name="image" />
+            </div>
+        </div>
+        <div>
+            <button class="form-contrl btn-success" type="submit">Submit</button>
+        </div>
+
+</form>
+</div>
+{%endblock%}

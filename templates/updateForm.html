@@ -1,0 +1,70 @@
+{%if session[session['user']] == True%}
+{%extends 'master_page.html'%}
+{%block updateForm%}
+<style>
+    label{
+        font-weight:bold;
+    }
+    img{
+    width: 60%;
+    height: 30%;
+    border: 1px solid #dad3d3;
+    padding: 1%;
+    margin-top: 3%;
+    }
+</style>
+<div class="container col-md-4 offset-md-4" id="containerDiv">
+    <form method="POST" id="updateForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Name</label>
+            </div>
+        </div>
+        <input type="text" class="form-contrl" name="name" value="{{player[0].name}}" />
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Country</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="country" value="{{player[0].country}}" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Born</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="born" value="{{player[0].born}}" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Role</label>
+            </div>
+            <div>
+                <input type="text" class="form-contrl" name="role" value="{{player[0].role}}" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label class="form-contrl">Image</label>
+            </div>
+            <div>
+                <input type="file" class="form-contrl" name="image" />
+            </div>
+            <div>
+               <img src="{{url_for('.static',filename=player[0].image)}}" alt="{{player[0].image}}">
+              <!--  <img src="{{player[0].image}}" alt="{{player[0].image}}">-->
+            </div>
+        </div>
+        <input type="hidden" class="form-contrl" name="id" value="{{player[0].id}}" />
+        <input type="hidden" class="form-contrl" name="imageOld" value="{{player[0].image}}" />
+        <div>
+            <button class="form-contrl btn-success" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+{%endblock%}
+{%else%}
+Not Authorized !!!
+{%endif%}

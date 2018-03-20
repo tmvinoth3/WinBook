@@ -1,0 +1,90 @@
+<html>
+<head>
+    <script src="{{url_for('.static', filename='jquery-3.3.1.min.js')}}"></script>
+    <link href="{{url_for('.static', filename='bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <script src="{{url_for('.static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('.static', filename='social.js')}}"></script>
+    <style>
+
+
+        #displayDiv {
+            margin-top: 5%;
+        }
+
+        #imgInfo {
+            height: 30%;
+            width: 12%;
+        }
+
+        h3, h1 {
+            font-weight: italic;
+        }
+
+
+        #nav {
+            color: white;
+            background-color: black;
+            height: 10%;
+            text-align: center;
+        }
+
+        table, tr, th, td {
+            border: 1px solid black;
+        }
+
+        #createForm, #updateForm {
+            margin-left: 5%;
+            margin-top: 5%;
+        }
+
+        #containerDiv, #infoDiv {
+            margin-top: 5%;
+            border: 2px solid #6f797924;
+        }
+
+        li {
+            color: white;
+        }
+
+    /*#frndModal{*/
+    /*        position: absolute;*/
+    /*left: 53%;*/
+    /*top: 3%;*/
+    /*width: 50%;*/
+    /*}*/
+    </style>
+</head>
+<body background="{{url_for('.static',filename='img/smile.jpg')}}" style="background-size:cover;background-attachment:fixed;">
+    <div class="container">
+            <div id="menu" class="navbar navbar-default navbar-fixed-top">
+                <div class="navbar-header col-sm-offset-5">
+                    <h4 class="visible-sm visible-xs" id="nav-title">Social Network</h4>
+                    <button class="btn btn-success navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse">
+                    <div class="navbar-header col-md-offset-5">
+                            <h4 class="hidden-sm hidden-xs" id="nav-title" style="color:black;">Social Network</h4>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right" style="margin-right: 1%">
+                    {%if session[session['user']] == True%}
+                        <li class="nav"><a class="" href="" id="viewMsg"><span class="glyphicon glyphicon-envelope">Message({{session['msgCount']}})</span></a></li>
+                        <li class="nav"><a class="" href="" id="frndIcon"><span class="glyphicon glyphicon-user"><span class="glyphicon glyphicon-user"></span>Friends</span></a></li>
+                        <li class="nav"><a class="" href="{{url_for('logout',user=session['user'])}}"><span class="glyphicon glyphicon-log-out">Logout</span></a></li>
+                        <li class="nav"><a class="userProfile" id="{{session['user_id']}}" href=""><span class="glyphicon glyphicon-user">{{session['user']}}</span></a></li>
+                  {%endif%}
+                   </ul>
+                </div>
+            </div>
+        {%block start%}{%endblock%}
+        {%block form_details%}{%endblock%}
+        {%block person%}{%endblock%}
+        {%block updateForm%}{%endblock%}
+        {%block playerInfo%}{%endblock%}
+        {%block login%}{%endblock%}
+        {%block signup%}{%endblock%}
+    </div>
+</body>
+</html>

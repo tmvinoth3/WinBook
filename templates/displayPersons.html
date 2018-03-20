@@ -1,0 +1,25 @@
+{%if session[session['user']] == True%}
+{%extends 'master_page.html'%}
+{%block person%}
+<div id="displayDiv" class="col-md-6 offset-md-3">
+<table class="table table-bordered">
+<tr>
+<th>Name</th>
+<th>Country</th>
+<th></th>
+<th></th>
+</tr>
+{%for p in person%}
+<tr>
+<td><a href="{{url_for('player_Info',id=p.id)}}">{{p.name}}</a></td>
+<td>{{p.country}}</td>
+<td><a href="{{url_for('delete',id=p.id)}}">Delete</a></td>
+<td><a href="{{url_for('update',id=p.id)}}">Update</a></td>
+</tr>
+{%endfor%}
+</table>
+</div>
+{%endblock%}
+{%else%}
+{{url_for('notLogged',msg=500)}}
+{%endif%}

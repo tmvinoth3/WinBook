@@ -1,0 +1,39 @@
+{%extends 'master_page.html'%}
+{%block playerInfo%}
+<style>
+    img {
+        height: 80%;
+        width: 80%;
+        padding: 1%;
+        float: right;
+        border-radius: 5%;
+    }
+    #absDiv {
+        position: absolute;
+        left: 40%;
+        bottom: 1%;
+    }
+    #relDiv {
+        position: relative;
+        border: 1px solid #e4dcdc;
+        margin-top: 2%;
+        background-color: #ecedf5c4;
+        color: rgb(74, 65, 144);
+        border: solid #eae6e6c4;
+        height: 35%;
+    }
+</style>
+<div class="row" id="">
+
+    <div class="col-md-3 offset-md-4" id="relDiv">
+        <h2>{{info[0].name}}</h2>
+        <h4>{{info[0].country}}</h4>
+        <h5>{{info[0].born}}</h5>
+        <h5>{{info[0].role}}</h5>
+        <div id="absDiv" class="">
+        <img id="" src="{{url_for('.static',filename=info[0].image)}}" alt="{{info[0].image}}">
+            <!--    <img id="" src="{{info[0].image}}" alt="{{info[0].image}}">-->
+        </div>
+    </div>
+</div>
+{%endblock%}
